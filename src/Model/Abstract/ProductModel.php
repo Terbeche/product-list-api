@@ -13,9 +13,12 @@ abstract class ProductModel
     protected array $attributes;
     protected array $prices;
     protected string $brand;
+    protected ?string $typeName = null;
 
-    abstract public function getType(): string;
-    
+    public function getTypeName(): ?string
+    {
+        return $this->typeName;
+    }
     public function getId(): string
     {
         return $this->id;
@@ -73,7 +76,7 @@ abstract class ProductModel
             'attributes' => $this->attributes,
             'prices' => $this->prices,
             'brand' => $this->brand,
-            'type' => $this->getType()
+            'type_name' => $this->typeName
         ];
     }
     

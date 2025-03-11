@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     order_id VARCHAR(50),
     product_id VARCHAR(50),
     quantity INT NOT NULL,
+    selected_attributes TEXT,
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );

@@ -16,13 +16,16 @@ class AttributeType extends ObjectType
                 return [
                     'id' => [
                         'type' => Type::nonNull(Type::string()),
-                        'description' => 'The unique identifier of the attribute'
+                        'description' => 'The unique identifier of the attribute',
+                        'resolve' => function($attribute) {
+                            return $attribute['id'] ?? null;
+                        }
                     ],
                     'displayValue' => [
                         'type' => Type::nonNull(Type::string()),
                         'description' => 'The display value of the attribute',
                         'resolve' => function($attribute) {
-                            return $attribute['display_value'];
+                            return $attribute['display_value'] ?? null;
                         }
                     ],
                     'value' => [

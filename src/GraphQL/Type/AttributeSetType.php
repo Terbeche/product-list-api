@@ -17,15 +17,24 @@ class AttributeSetType extends ObjectType
                 return [
                     'id' => [
                         'type' => Type::nonNull(Type::string()),
-                        'description' => 'The unique identifier of the attribute set'
+                        'description' => 'The unique identifier of the attribute set',
+                        'resolve' => function($attributeSet) {
+                            return $attributeSet['id'] ?? null;
+                        }
                     ],
                     'name' => [
                         'type' => Type::nonNull(Type::string()),
-                        'description' => 'The name of the attribute set'
+                        'description' => 'The name of the attribute set',
+                        'resolve' => function($attributeSet) {
+                            return $attributeSet['name'] ?? null;
+                        }
                     ],
                     'type' => [
                         'type' => Type::string(),
-                        'description' => 'The type of the attribute (text, swatch, etc)'
+                        'description' => 'The type of the attribute (text, swatch, etc)',
+                        'resolve' => function($attributeSet) {
+                            return $attributeSet['type'] ?? null;
+                        }
                     ],
                     'items' => [
                         'type' => Type::listOf(Registry::attributeType()),

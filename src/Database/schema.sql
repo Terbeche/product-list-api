@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS products (
     description TEXT,
     category_id VARCHAR(50),
     brand VARCHAR(100),
-    type VARCHAR(50) DEFAULT 'SimpleProduct',
+    type VARCHAR(50) DEFAULT 'Product',
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 

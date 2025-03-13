@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\GraphQL\Resolver\CategoryResolver;
+use App\GraphQL\Resolver\ProductResolver;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
@@ -15,15 +17,10 @@ class GraphQL {
         try {
             $queryType = new ObjectType([
                 'name' => 'Query',
-                'fields' => [
-                    'echo' => [
-                        'type' => Type::string(),
-                        'args' => [
-                            'message' => ['type' => Type::string()],
-                        ],
-                        'resolve' => static fn ($rootValue, array $args): string => $rootValue['prefix'] . $args['message'],
-                    ],
-                ],
+                'fields' => array_merge(
+                    CategoryResolver::getFields(),
+                    ProductResolver::getFields()
+                )
             ]);
         
             $mutationType = new ObjectType([
@@ -57,15 +54,35 @@ class GraphQL {
             $query = $input['query'];
             $variableValues = $input['variables'] ?? null;
         
-            $rootValue = ['prefix' => 'You said: '];
+            if (!$query) {
+                throw new RuntimeException('No GraphQL query provided');
+            }
+            
+            $rootValue = [];
             $result = GraphQLBase::executeQuery($schema, $query, $rootValue, null, $variableValues);
             $output = $result->toArray();
         } catch (Throwable $e) {
             $output = [
-                'error' => [
+                'errors' => [
+                    [
                     'message' => $e->getMessage(),
-                ],
+                        'trace' => $e->getTraceAsString(),
+                        'locations' => [['line' => $e->getLine(), 'column' => 0]],
+                        'path' => ['query']
+                    ]
+                ]
             ];
+        }
+
+        // Set CORS headers to allow requests from any origin
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type');
+        
+        // Handle OPTIONS requests for CORS preflight
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            header('HTTP/1.1 200 OK');
+            exit();
         }
 
         header('Content-Type: application/json; charset=UTF-8');

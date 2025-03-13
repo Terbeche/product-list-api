@@ -20,7 +20,10 @@ class OrderType extends ObjectType
                     ],
                     'total' => [
                         'type' => Type::nonNull(Type::float()),
-                        'description' => 'Order total'
+                        'description' => 'Order total',
+                        'resolve' => function($order) {
+                            return $order['total_amount'];
+                        }
                     ],
                     'items' => [
                         'type' => Type::listOf(Registry::orderItemType()),

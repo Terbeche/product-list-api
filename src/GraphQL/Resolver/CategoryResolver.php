@@ -17,7 +17,7 @@ class CategoryResolver
             'categories' => [
                 'type' => Type::listOf(Registry::categoryType()),
                 'description' => 'Get all product categories',
-                'resolve' => function($args, $context) {
+                'resolve' => function($rootValue, $args, $context) {
                     $categoryRepository = new \App\Repository\CategoryRepository();
                     return $categoryRepository->findAll();
                 }

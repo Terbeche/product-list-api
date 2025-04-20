@@ -24,11 +24,6 @@ class Connection
             $username = $isHeroku ? getenv('DB_USER') : $_ENV['DB_USER'];
             $password = $isHeroku ? getenv('DB_PASSWORD') : $_ENV['DB_PASSWORD'];
 
-            // Validate database credentials
-            if (!$host || !$dbname || !$username || !$password) {
-                throw new RuntimeException("Database credentials are missing or incorrect.");
-            }
-
             try {
                 $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
 

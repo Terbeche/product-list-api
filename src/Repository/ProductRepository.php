@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Database\Connection;
 use App\Model\Abstract\ProductModel;
-use App\Model\Product\Product;
+use App\Model\Product;
 use PDO;
 
 class ProductRepository

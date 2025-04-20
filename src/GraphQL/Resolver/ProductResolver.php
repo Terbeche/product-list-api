@@ -3,7 +3,7 @@
 namespace App\GraphQL\Resolver;
 
 use App\Database\Connection;
-use App\Model\Product\Product;
+use App\Model\Product;
 use App\GraphQL\Type\Registry;
 use GraphQL\Type\Definition\Type;
 use App\Repository\ProductRepository;
